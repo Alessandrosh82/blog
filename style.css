@@ -13,6 +13,7 @@ body {
   padding: 20px;
   max-width: 900px;
   margin: 0 auto;
+  text-align: justify; /* justifica o texto em todo o corpo */
 }
 
 header {
@@ -38,11 +39,13 @@ article {
   padding: 1.5rem 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  text-align: justify; /* justifica o texto dentro do artigo */
 }
 
 article h2 {
   color: #34495e;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
+  text-align: left; /* títulos alinhados à esquerda */
 }
 
 article time {
@@ -50,6 +53,7 @@ article time {
   font-size: 0.9rem;
   color: #7f8c8d;
   margin-bottom: 1rem;
+  text-align: left;
 }
 
 article p {
@@ -78,5 +82,8 @@ footer {
   }
   header h1 {
     font-size: 1.8rem;
+  }
+  article {
+    padding: 1rem 1.2rem;
   }
 }
