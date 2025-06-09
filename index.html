@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vivendo a Obra Nova - Blog Católico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Reset básico */
     * {
       margin: 0;
       padding: 0;
@@ -32,26 +32,24 @@
     }
 
     header h1 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 700;
-      font-size: 3rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.2rem;
       color: #2c3e50;
       margin-bottom: 0.3rem;
-      letter-spacing: 0.04em;
     }
 
     header p.subtitle {
       color: #6c7a89;
       font-style: italic;
       font-weight: 600;
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       margin-bottom: 0.5rem;
     }
 
     header p.quote {
       color: #3a6351;
       font-style: italic;
-      font-size: 2rem;
+      font-size: 1.7rem;
       font-weight: 400;
     }
 
@@ -62,12 +60,21 @@
       flex-grow: 1;
     }
 
+    .latest-label {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #1b6b54;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
     article {
       background: #fff;
       padding: 1.8rem 2.2rem;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
-      text-align: left;
       transition: box-shadow 0.3s ease;
     }
 
@@ -78,8 +85,9 @@
     article h2 {
       color: #2a3d45;
       margin-bottom: 0.4rem;
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       font-weight: 700;
+      text-align: center;
     }
 
     article h2 a {
@@ -98,7 +106,7 @@
       font-size: 0.9rem;
       color: #7f8c8d;
       margin-bottom: 1rem;
-      font-style: normal;
+      text-align: center;
     }
 
     article p.preview {
@@ -106,14 +114,26 @@
       color: #444;
       line-height: 1.4;
       margin-top: 0.5rem;
-      max-height: 4.2em; /* cerca de 3 linhas */
+      max-height: 4.5em;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    /* Destaque para o último post */
+    .read-more {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #0066cc;
+      text-align: right;
+      text-decoration: none;
+    }
+
+    .read-more:hover {
+      text-decoration: underline;
+    }
+
     article.latest-post {
-      border: 2.5px solid #5b86a3;
+      border: 2px solid #5b86a3;
       background: #f0fbff;
       box-shadow: 0 6px 25px rgb(27 107 84 / 0.25);
     }
@@ -126,26 +146,27 @@
       user-select: none;
     }
 
-    /* Responsividade */
     @media (max-width: 600px) {
       body {
         padding: 15px;
       }
+
       header h1 {
-        font-size: 2.2rem;
+        font-size: 2.5rem;
       }
+
       header p.subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
-      main {
-        gap: 1.5rem;
-      }
+
       article {
         padding: 1.2rem 1.5rem;
       }
+
       article h2 {
         font-size: 1.4rem;
       }
+
       article p.preview {
         max-height: 5em;
       }
@@ -160,7 +181,7 @@
   </header>
 
   <main id="posts-container">
-    <!-- Lista de posts será inserida aqui pelo JS -->
+    <!-- Posts serão inseridos aqui -->
   </main>
 
   <footer>
@@ -168,7 +189,6 @@
   </footer>
 
   <script>
-    // Formata data para pt-BR
     function formatDate(dateStr) {
       const date = new Date(dateStr);
       return date.toLocaleDateString("pt-BR", {
@@ -178,15 +198,11 @@
       });
     }
 
-    // Função para limpar tags HTML do conteúdo e criar preview curto
-    function createPreview(htmlContent, maxLength = 180) {
+    function createPreview(htmlContent, maxLength = 160) {
       const div = document.createElement("div");
       div.innerHTML = htmlContent;
       const text = div.textContent || div.innerText || "";
-      if (text.length > maxLength) {
-        return text.slice(0, maxLength).trim() + "...";
-      }
-      return text;
+      return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
     }
 
     async function loadPosts() {
@@ -195,8 +211,6 @@
         if (!response.ok) throw new Error("Erro ao carregar o JSON");
 
         const posts = await response.json();
-
-        // Ordena por data decrescente (mais recente primeiro)
         posts.sort((a, b) => new Date(b.data) - new Date(a.data));
 
         const container = document.getElementById("posts-container");
@@ -204,38 +218,44 @@
 
         posts.forEach((post, index) => {
           const article = document.createElement("article");
-
-          // Último post em destaque
           if (index === 0) {
             article.classList.add("latest-post");
+
+            const label = document.createElement("div");
+            label.className = "latest-label";
+            label.textContent = "Última publicação";
+            container.appendChild(label);
           }
 
-          // Título com link
           const title = document.createElement("h2");
           const link = document.createElement("a");
           link.href = `post.html?id=${post.id}`;
           link.textContent = post.titulo;
           title.appendChild(link);
-          article.appendChild(title);
 
-          // Data formatada
           const time = document.createElement("time");
           time.setAttribute("datetime", post.data);
           time.textContent = formatDate(post.data);
-          article.appendChild(time);
 
-          // Preview do conteúdo
           const preview = document.createElement("p");
           preview.classList.add("preview");
           preview.textContent = createPreview(post.conteudo);
+
+          const readMore = document.createElement("a");
+          readMore.className = "read-more";
+          readMore.href = `post.html?id=${post.id}`;
+          readMore.textContent = "Ler mais →";
+
+          article.appendChild(title);
+          article.appendChild(time);
           article.appendChild(preview);
+          article.appendChild(readMore);
 
           container.appendChild(article);
         });
       } catch (error) {
         console.error(error);
-        const container = document.getElementById("posts-container");
-        container.textContent = "Erro ao carregar os posts.";
+        document.getElementById("posts-container").textContent = "Erro ao carregar os posts.";
       }
     }
 
