@@ -138,9 +138,50 @@
       box-shadow: 0 6px 25px rgb(27 107 84 / 0.25);
     }
 
+    .recomendacoes {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .recomendacoes h3 {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .recomendacoes ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.7rem;
+      padding: 0;
+    }
+
+    .recomendacoes li {
+      margin: 0.3rem 0.5rem;
+    }
+
+    .recomendacoes a {
+      color: #1b6b54;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .recomendacoes a:hover {
+      color: #14513f;
+      text-decoration: underline;
+    }
+
     footer {
       text-align: center;
-      margin-top: 4rem;
+      margin-top: 3rem;
       font-size: 0.9rem;
       color: #aaa;
       user-select: none;
@@ -167,8 +208,9 @@
         font-size: 1.4rem;
       }
 
-      article p.preview {
-        max-height: 5em;
+      .recomendacoes ul {
+        flex-direction: column;
+        align-items: center;
       }
     }
   </style>
@@ -183,6 +225,18 @@
   <main id="posts-container">
     <!-- Posts serão inseridos aqui -->
   </main>
+
+  <section class="recomendacoes">
+    <h3>Recomendações Católicas</h3>
+    <ul>
+      <li><a href="https://comshalom.org/" target="_blank" rel="noopener">Comunidade Shalom</a></li>
+      <li><a href="https://www.cancaonova.com/" target="_blank" rel="noopener">Canção Nova</a></li>
+      <li><a href="https://padrepauloricardo.org/" target="_blank" rel="noopener">Pe. Paulo Ricardo</a></li>
+      <li><a href="https://www.vatican.va/content/vatican/pt.html" target="_blank" rel="noopener">Vaticano (site oficial)</a></li>
+      <li><a href="https://livrariaguilhermefreire.com.br/" target="_blank" rel="noopener">Livraria G. Freire</a></li>
+      <li><a href="https://www.vaticannews.va/pt.html" target="_blank" rel="noopener">Vatican News</a></li>
+    </ul>
+  </section>
 
   <footer>
     <p>© 2025 Vivendo a Obra Nova</p>
@@ -224,7 +278,7 @@
             const label = document.createElement("div");
             label.className = "latest-label";
             label.textContent = "Última publicação";
-            article.appendChild(label); // Agora está DENTRO do article
+            article.appendChild(label);
           }
 
           const title = document.createElement("h2");
