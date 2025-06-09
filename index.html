@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vivendo a Obra Nova - Blog Católico</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-+wR0KnrbBPzBz0fwg+9DpiTqtNjX0vZ81BtD34Y4hE+AywKq0LuBkz0lfDrb5j3xjrxD3Q2iFXwR5JhNV7qHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -139,52 +139,52 @@
       box-shadow: 0 6px 25px rgb(27 107 84 / 0.25);
     }
 
-    footer {
-      text-align: center;
-      margin-top: 4rem;
-      font-size: 0.9rem;
-      color: #aaa;
-      user-select: none;
-    }
-
-    .recommendations {
+    .recomendacoes {
       margin-top: 3rem;
-      padding-top: 2rem;
+      padding-top: 1.5rem;
       border-top: 1px solid #ccc;
     }
 
-    .recommendations h3 {
-      font-size: 1rem;
+    .recomendacoes h3 {
+      font-size: 1.1rem;
       color: #444;
       margin-bottom: 1rem;
-      font-weight: 600;
+      text-align: center;
     }
 
-    .recommendations ul {
+    .recomendacoes ul {
       list-style: none;
       padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
     }
 
-    .recommendations li {
-      margin-bottom: 0.5rem;
-    }
-
-    .recommendations a {
+    .recomendacoes li a {
       text-decoration: none;
-      color: #1b6b54;
-      display: inline-flex;
+      color: #2c3e50;
+      font-size: 0.95rem;
+      display: flex;
       align-items: center;
       gap: 0.5rem;
-      transition: color 0.3s ease;
     }
 
-    .recommendations a:hover {
-      color: #0f4033;
+    .recomendacoes li a:hover {
+      color: #1b6b54;
+      text-decoration: underline;
     }
 
-    .recommendations i {
-      color: #5b86a3;
-      min-width: 18px;
+    .recomendacoes li i {
+      color: #1b6b54;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #aaa;
+      user-select: none;
     }
 
     @media (max-width: 600px) {
@@ -225,18 +225,19 @@
     <!-- Posts serão inseridos aqui -->
   </main>
 
+  <section class="recomendacoes">
+    <h3>Recomendações</h3>
+    <ul>
+      <li><a href="https://comshalom.org/" target="_blank"><i class="fas fa-dove"></i>Comunidade Shalom</a></li>
+      <li><a href="https://www.cancaonova.com/" target="_blank"><i class="fas fa-music"></i>Canção Nova</a></li>
+      <li><a href="https://padrepauloricardo.org/" target="_blank"><i class="fas fa-chalkboard-teacher"></i>Padre Paulo Ricardo</a></li>
+      <li><a href="https://livrariaguilhermefreire.com.br/" target="_blank"><i class="fas fa-book"></i>Livraria Guilherme Freire</a></li>
+      <li><a href="https://www.vaticannews.va/pt.html" target="_blank"><i class="fas fa-newspaper"></i>Vatican News</a></li>
+      <li><a href="https://www.vatican.va/content/vatican/pt.html" target="_blank"><i class="fas fa-cross"></i>Vaticano</a></li>
+    </ul>
+  </section>
+
   <footer>
-    <div class="recommendations">
-      <h3> Visite também</h3>
-      <ul>
-        <li><a href="https://comshalom.org/" target="_blank"><i class="fas fa-hand-holding-heart"></i>ComShalom</a></li>
-        <li><a href="https://www.cancaonova.com/" target="_blank"><i class="fas fa-music"></i>Canção Nova</a></li>
-        <li><a href="https://padrepauloricardo.org/" target="_blank"><i class="fas fa-chalkboard-teacher"></i>Pe Paulo Ricardo</a></li>
-        <li><a href="https://livrariaguilhermefreire.com.br/" target="_blank"><i class="fas fa-book-open"></i>Livraria Guilherme Freire</a></li>
-        <li><a href="https://www.vaticannews.va/pt.html" target="_blank"><i class="fas fa-newspaper"></i>Vatican News</a></li>
-        <li><a href="https://www.vatican.va/content/vatican/pt.html" target="_blank"><i class="fas fa-globe"></i>Santa Sé</a></li>
-      </ul>
-    </div>
     <p>© 2025 Vivendo a Obra Nova</p>
   </footer>
 
