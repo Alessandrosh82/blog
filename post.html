@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Post | Vivendo a Obra Nova</title>
+  <title>Vivendo a Obra Nova</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     body {
@@ -27,66 +27,95 @@
       color: #1a2a4f;
       margin-bottom: 10px;
     }
+    .descricao {
+      font-size: 0.9em;
+      color: #555;
+      margin-top: -5px;
+      font-style: italic;
+    }
+    .versiculo {
+      font-size: 1.1em;
+      margin-top: 20px;
+      color: #444;
+      font-weight: bold;
+    }
+    article {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 30px;
+    }
+    h2 {
+      margin-bottom: 5px;
+      font-size: 1.7em;
+    }
     .data {
       color: #777;
       font-size: 0.9em;
       margin-bottom: 15px;
-      text-align: center;
     }
-    .conteudo {
-      line-height: 1.7;
-    }
-    .voltar {
-      display: block;
-      margin-top: 40px;
+    footer {
       text-align: center;
+      margin: 60px 0 30px;
       font-size: 0.9em;
-      text-decoration: none;
-      color: #0077cc;
+      color: #777;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1 id="titulo">Carregando...</h1>
-    <div class="data" id="data"></div>
+    <h1>Vivendo a Obra Nova</h1>
+    <div class="descricao">blog católico</div>
+    <div class="versiculo">“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis?”</div>
   </header>
 
-  <main class="conteudo" id="conteudo"></main>
+  <main id="post"></main>
 
-  <a class="voltar" href="index.html">← Voltar para o blog</a>
+  <footer>
+    © 2025 Vivendo a Obra Nova
+  </footer>
 
   <script>
     async function carregarPost() {
-      const params = new URLSearchParams(window.location.search);
-      const postId = params.get('id');
-
-      if (!postId) {
-        document.getElementById('conteudo').textContent = 'Post não encontrado.';
-        return;
-      }
-
       try {
         const resposta = await fetch('posts.json');
         const posts = await resposta.json();
-        const post = posts.find(p => p.id === postId);
+
+        // Pega o parâmetro "id" da URL
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+        // Encontra o post com o id correspondente
+        const post = posts.find(p => p.id === id);
+
+        const container = document.getElementById('post');
 
         if (!post) {
-          document.getElementById('conteudo').textContent = 'Post não encontrado.';
+          container.innerHTML = '<p>Post não encontrado.</p>';
           return;
         }
 
-        document.getElementById('titulo').textContent = post.titulo;
+        const artigo = document.createElement('article');
 
+        const titulo = document.createElement('h2');
+        titulo.textContent = post.titulo;
+
+        const data = document.createElement('div');
         const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
         const dataFormatada = new Date(post.data).toLocaleDateString('pt-BR', opcoes);
-        document.getElementById('data').textContent = dataFormatada;
+        data.textContent = dataFormatada;
+        data.className = 'data';
 
-        document.getElementById('conteudo').innerHTML = post.conteudo;
+        const conteudo = document.createElement('div');
+        conteudo.innerHTML = post.conteudo;
 
+        artigo.appendChild(titulo);
+        artigo.appendChild(data);
+        artigo.appendChild(conteudo);
+
+        container.appendChild(artigo);
       } catch (erro) {
-        document.getElementById('conteudo').textContent = 'Erro ao carregar o post.';
-        console.error('Erro:', erro);
+        document.getElementById('post').innerHTML = '<p>Não foi possível carregar o post.</p>';
+        console.error('Erro ao carregar post:', erro);
       }
     }
 
@@ -94,4 +123,3 @@
   </script>
 </body>
 </html>
-
