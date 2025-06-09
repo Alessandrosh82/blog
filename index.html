@@ -218,13 +218,13 @@
 
         posts.forEach((post, index) => {
           const article = document.createElement("article");
+
           if (index === 0) {
             article.classList.add("latest-post");
-
             const label = document.createElement("div");
             label.className = "latest-label";
             label.textContent = "Última publicação";
-            container.appendChild(label);
+            article.appendChild(label); // Agora está DENTRO do article
           }
 
           const title = document.createElement("h2");
