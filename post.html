@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post | Vivendo a Obra Nova</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Open Sans", sans-serif;
+      background-color: #fffdf9;
+      color: #333;
+      margin: 0;
+      padding: 0 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    header {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 50px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8em;
+      color: #1a2a4f;
+      margin-bottom: 10px;
+    }
+    .data {
+      color: #777;
+      font-size: 0.9em;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .conteudo {
+      line-height: 1.7;
+    }
+    .voltar {
+      display: block;
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      text-decoration: none;
+      color: #0077cc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="titulo">Carregando...</h1>
+    <div class="data" id="data"></div>
+  </header>
+
+  <main class="conteudo" id="conteudo"></main>
+
+  <a class="voltar" href="index.html">← Voltar para o blog</a>
+
+  <script>
+    async function carregarPost() {
+      const params = new URLSearchParams(window.location.search);
+      const postId = params.get('id');
+
+      if (!postId) {
+        document.getElementById('conteudo').textContent = 'Post não encontrado.';
+        return;
+      }
+
+      try {
+        const resposta = await fetch('posts.json');
+        const posts = await resposta.json();
+        const post = posts.find(p => p.id === postId);
+
+        if (!post) {
+          document.getElementById('conteudo').textContent = 'Post não encontrado.';
+          return;
+        }
+
+        document.getElementById('titulo').textContent = post.titulo;
+
+        const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
+        const dataFormatada = new Date(post.data).toLocaleDateString('pt-BR', opcoes);
+        document.getElementById('data').textContent = dataFormatada;
+
+        document.getElementById('conteudo').innerHTML = post.conteudo;
+
+      } catch (erro) {
+        document.getElementById('conteudo').textContent = 'Erro ao carregar o post.';
+        console.error('Erro:', erro);
+      }
+    }
+
+    carregarPost();
+  </script>
+</body>
+</html>
+
