@@ -2,9 +2,9 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vivendo a Obra Nova</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: "Open Sans", sans-serif;
@@ -59,6 +59,8 @@
       margin-bottom: 10px;
       text-decoration: none;
       color: #333;
+      /* removendo <p> do preview */
+      white-space: pre-wrap;
     }
     .preview:hover {
       color: #0077cc;
@@ -91,29 +93,34 @@
         const posts = await resposta.json();
 
         const container = document.getElementById('posts');
+        container.innerHTML = '';  // limpa o container antes
 
         posts.forEach(post => {
           const artigo = document.createElement('article');
 
+          // Título
           const titulo = document.createElement('h2');
           titulo.textContent = post.titulo;
 
+          // Data formatada em pt-BR (ex: 3 de junho de 2025)
           const data = document.createElement('div');
           const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
           const dataFormatada = new Date(post.data).toLocaleDateString('pt-BR', opcoes);
           data.textContent = dataFormatada;
           data.className = 'data';
 
-          const conteudo = document.createElement('div');
-          conteudo.innerHTML = post.conteudo;
-          const textoCompleto = conteudo.textContent || conteudo.innerText || '';
-          const previewTexto = textoCompleto.slice(0, 280) + (textoCompleto.length > 280 ? '...' : '');
+          // Criar preview removendo tags HTML (especialmente <p>) e limitando a 280 caracteres
+          const divConteudo = document.createElement('div');
+          divConteudo.innerHTML = post.conteudo;
+          const textoPlano = divConteudo.textContent || divConteudo.innerText || '';
+          const previewTexto = textoPlano.length > 280 ? textoPlano.slice(0, 280) + '...' : textoPlano;
 
           const preview = document.createElement('a');
           preview.className = 'preview';
-          preview.href = `post.html?id=${post.id}`;
+          preview.href = `post.html?id=${encodeURIComponent(post.id)}`;
           preview.textContent = previewTexto;
 
+          // Monta o artigo
           artigo.appendChild(titulo);
           artigo.appendChild(data);
           artigo.appendChild(preview);
@@ -121,7 +128,8 @@
           container.appendChild(artigo);
         });
       } catch (erro) {
-        document.getElementById('posts').innerHTML = '<p>Não foi possível carregar os posts.</p>';
+        const container = document.getElementById('posts');
+        container.innerHTML = '<p>Não foi possível carregar os posts.</p>';
         console.error('Erro ao carregar posts:', erro);
       }
     }
