@@ -54,23 +54,14 @@
       margin-bottom: 15px;
     }
     .preview {
+      display: block;
       line-height: 1.6;
       margin-bottom: 10px;
+      text-decoration: none;
+      color: #333;
     }
-    .ler-mais {
+    .preview:hover {
       color: #0077cc;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 0.95em;
-      border: none;
-      background: none;
-      padding: 0;
-      margin-top: 5px;
-    }
-    .conteudo-completo {
-      display: none;
-      margin-top: 15px;
-      line-height: 1.6;
     }
     footer {
       text-align: center;
@@ -101,7 +92,7 @@
 
         const container = document.getElementById('posts');
 
-        posts.forEach((post, index) => {
+        posts.forEach(post => {
           const artigo = document.createElement('article');
 
           const titulo = document.createElement('h2');
@@ -118,27 +109,14 @@
           const textoCompleto = conteudo.textContent || conteudo.innerText || '';
           const previewTexto = textoCompleto.slice(0, 280) + (textoCompleto.length > 280 ? '...' : '');
 
-          const preview = document.createElement('p');
+          const preview = document.createElement('a');
           preview.className = 'preview';
+          preview.href = `post.html?id=${post.id}`;
           preview.textContent = previewTexto;
-
-          const botao = document.createElement('button');
-          botao.className = 'ler-mais';
-          botao.textContent = 'Ler mais';
-          botao.onclick = () => {
-            completo.style.display = completo.style.display === 'none' ? 'block' : 'none';
-            botao.textContent = completo.style.display === 'none' ? 'Ler mais' : 'Ler menos';
-          };
-
-          const completo = document.createElement('div');
-          completo.className = 'conteudo-completo';
-          completo.innerHTML = post.conteudo;
 
           artigo.appendChild(titulo);
           artigo.appendChild(data);
           artigo.appendChild(preview);
-          artigo.appendChild(botao);
-          artigo.appendChild(completo);
 
           container.appendChild(artigo);
         });
