@@ -2,20 +2,103 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vivendo a Obra Nova</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: "Georgia", serif;
+      background-color: #fffdf9;
+      color: #333;
+      margin: 0;
+      padding: 0 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    header {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 50px;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    article {
+      margin-bottom: 60px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 40px;
+    }
+    h2 {
+      margin-bottom: 5px;
+      font-size: 1.7em;
+    }
+    .data {
+      color: #777;
+      font-size: 0.9em;
+      margin-bottom: 20px;
+    }
+    footer {
+      text-align: center;
+      margin: 60px 0 30px;
+      font-size: 0.9em;
+      color: #777;
+    }
+    blockquote {
+      margin: 20px 0;
+      padding-left: 20px;
+      border-left: 4px solid #ccc;
+      color: #555;
+      font-style: italic;
+    }
+    p {
+      line-height: 1.7;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>Vivendo a Obra Nova</h1>
   </header>
-  <main id="posts-container">
-    <!-- Posts serão inseridos aqui pelo JS -->
-  </main>
+  <main id="posts"></main>
   <footer>
-    <p>© 2025 Vivendo a Obra Nova</p>
+    © 2025 Vivendo a Obra Nova
   </footer>
-  <script src="scripts.js"></script>
+  <script>
+    async function carregarPosts() {
+      try {
+        const resposta = await fetch('posts.json');
+        const posts = await resposta.json();
+
+        const container = document.getElementById('posts');
+        posts.forEach(post => {
+          const artigo = document.createElement('article');
+
+          const titulo = document.createElement('h2');
+          titulo.textContent = post.titulo;
+
+          const data = document.createElement('div');
+          const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
+          const dataFormatada = new Date(post.data).toLocaleDateString('pt-BR', opcoes);
+          data.textContent = dataFormatada;
+          data.className = 'data';
+
+          const conteudo = document.createElement('div');
+          conteudo.innerHTML = post.conteudo;
+
+          artigo.appendChild(titulo);
+          artigo.appendChild(data);
+          artigo.appendChild(conteudo);
+
+          container.appendChild(artigo);
+        });
+      } catch (erro) {
+        document.getElementById('posts').innerHTML = '<p>Não foi possível carregar os posts.</p>';
+        console.error('Erro ao carregar posts:', erro);
+      }
+    }
+
+    carregarPosts();
+  </script>
 </body>
 </html>
