@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vivendo a Obra Nova - Post</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    /* Reset básico */
     * {
       margin: 0;
       padding: 0;
@@ -16,76 +17,110 @@
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background: #f7f6f3;
       color: #333;
-      line-height: 1.6;
+      line-height: 1.8;
       max-width: 900px;
       margin: 0 auto;
       padding: 20px;
       text-align: justify;
     }
 
-    header, footer {
+    header {
       text-align: center;
       margin-bottom: 2rem;
-      color: #555;
     }
 
     header h1 {
-      font-weight: 700;
-      font-size: 2.5rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.2rem;
       color: #2c3e50;
     }
 
-    .back-link {
-      display: block;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    .back-link a {
-      color: #0066cc;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .back-link a:hover {
-      text-decoration: underline;
+    .quote {
+      color: #3a6351;
+      font-style: italic;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
     }
 
     article h1 {
       font-size: 2rem;
       margin-bottom: 0.5rem;
-      text-align: left;
+      text-align: center;
       color: #34495e;
     }
 
     article time {
       display: block;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       color: #7f8c8d;
-      font-size: 0.9rem;
-      text-align: left;
+      font-size: 0.95rem;
+      text-align: center;
     }
 
     article div {
-      /* Conteúdo do post */
       text-align: justify;
     }
 
-    footer p {
+    article div p {
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-buttons, .share-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .nav-buttons a,
+    .share-buttons button {
+      background-color: #1b6b54;
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-buttons a:hover,
+    .share-buttons button:hover {
+      background-color: #155a45;
+    }
+
+    .share-buttons {
+      margin-top: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    footer {
+      text-align: center;
       font-size: 0.9rem;
       color: #aaa;
     }
 
-    /* Responsividade */
     @media (max-width: 600px) {
       body {
         padding: 15px;
       }
+
       header h1 {
-        font-size: 1.8rem;
+        font-size: 2.5rem;
       }
+
       article h1 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+      }
+
+      .nav-buttons, .share-buttons {
+        flex-direction: column;
+        align-items: center;
       }
     }
   </style>
@@ -93,14 +128,21 @@
 <body>
   <header>
     <h1>Vivendo a Obra Nova</h1>
+    <p class="quote">“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis? Is 43,19”</p>
   </header>
 
   <main id="post-container">
     <!-- Post será inserido aqui pelo JS -->
   </main>
 
-  <div class="back-link">
-    <a href="index.html">&larr; Voltar ao blog</a>
+  <div class="nav-buttons" id="nav-links">
+    <!-- Botões de navegação serão inseridos aqui -->
+  </div>
+
+  <div class="share-buttons">
+    <button onclick="compartilharWhatsApp()"><i data-lucide="message-circle"></i> WhatsApp</button>
+    <button onclick="compartilharX()"><i data-lucide="twitter"></i> X</button>
+    <button onclick="copiarLink()"><i data-lucide="link"></i> Copiar link</button>
   </div>
 
   <footer>
@@ -108,7 +150,6 @@
   </footer>
 
   <script>
-    // Função para formatar data em pt-BR
     function formatDate(dateStr) {
       const date = new Date(dateStr);
       return date.toLocaleDateString("pt-BR", {
@@ -118,7 +159,6 @@
       });
     }
 
-    // Função para pegar o parâmetro id da URL
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
@@ -127,6 +167,7 @@
     async function loadPost() {
       const postId = getQueryParam("id");
       const container = document.getElementById("post-container");
+      const navLinks = document.getElementById("nav-links");
 
       if (!postId) {
         container.textContent = "Post não encontrado.";
@@ -138,16 +179,14 @@
         if (!response.ok) throw new Error("Erro ao carregar o JSON");
 
         const posts = await response.json();
-
-        // Busca o post pelo id
-        const post = posts.find(p => p.id === postId);
+        const currentIndex = posts.findIndex(p => p.id === postId);
+        const post = posts[currentIndex];
 
         if (!post) {
           container.textContent = "Post não encontrado.";
           return;
         }
 
-        // Cria o artigo com título, data e conteúdo
         const article = document.createElement("article");
 
         const title = document.createElement("h1");
@@ -164,10 +203,41 @@
         article.appendChild(content);
 
         container.appendChild(article);
+
+        // Botões de navegação
+        const voltar = `<a href="index.html"><i data-lucide="arrow-left"></i> Página Inicial</a>`;
+        const anterior = posts[currentIndex - 1]
+          ? `<a href="post.html?id=${posts[currentIndex - 1].id}"><i data-lucide="chevron-left"></i> ${posts[currentIndex - 1].titulo}</a>`
+          : "";
+        const proximo = posts[currentIndex + 1]
+          ? `<a href="post.html?id=${posts[currentIndex + 1].id}">${posts[currentIndex + 1].titulo} <i data-lucide="chevron-right"></i></a>`
+          : "";
+
+        navLinks.innerHTML = voltar + anterior + proximo;
+
+        lucide.createIcons(); // Ativa os ícones
       } catch (error) {
         console.error(error);
         container.textContent = "Erro ao carregar o post.";
       }
+    }
+
+    function compartilharWhatsApp() {
+      const url = window.location.href;
+      const texto = `Dá uma olhada nesse post que acabei de ler:\n${url}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, "_blank");
+    }
+
+    function compartilharX() {
+      const url = window.location.href;
+      const texto = `Confira este post:`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(texto)}&url=${encodeURIComponent(url)}`, "_blank");
+    }
+
+    function copiarLink() {
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => alert("Link copiado para a área de transferência!"))
+        .catch(() => alert("Erro ao copiar o link."));
     }
 
     window.addEventListener("DOMContentLoaded", loadPost);
