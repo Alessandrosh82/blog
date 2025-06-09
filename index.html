@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vivendo a Obra Nova - Blog Católico</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-+wR0KnrbBPzBz0fwg+9DpiTqtNjX0vZ81BtD34Y4hE+AywKq0LuBkz0lfDrb5j3xjrxD3Q2iFXwR5JhNV7qHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     * {
       margin: 0;
@@ -138,53 +139,52 @@
       box-shadow: 0 6px 25px rgb(27 107 84 / 0.25);
     }
 
-    .recomendacoes {
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid #ddd;
-      text-align: center;
-    }
-
-    .recomendacoes h3 {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 1rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .recomendacoes ul {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.7rem;
-      padding: 0;
-    }
-
-    .recomendacoes li {
-      margin: 0.3rem 0.5rem;
-    }
-
-    .recomendacoes a {
-      color: #1b6b54;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .recomendacoes a:hover {
-      color: #14513f;
-      text-decoration: underline;
-    }
-
     footer {
       text-align: center;
-      margin-top: 3rem;
+      margin-top: 4rem;
       font-size: 0.9rem;
       color: #aaa;
       user-select: none;
+    }
+
+    .recommendations {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ccc;
+    }
+
+    .recommendations h3 {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .recommendations ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .recommendations li {
+      margin-bottom: 0.5rem;
+    }
+
+    .recommendations a {
+      text-decoration: none;
+      color: #1b6b54;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .recommendations a:hover {
+      color: #0f4033;
+    }
+
+    .recommendations i {
+      color: #5b86a3;
+      min-width: 18px;
     }
 
     @media (max-width: 600px) {
@@ -208,9 +208,8 @@
         font-size: 1.4rem;
       }
 
-      .recomendacoes ul {
-        flex-direction: column;
-        align-items: center;
+      article p.preview {
+        max-height: 5em;
       }
     }
   </style>
@@ -226,19 +225,18 @@
     <!-- Posts serão inseridos aqui -->
   </main>
 
-  <section class="recomendacoes">
-    <h3>Recomendações Católicas</h3>
-    <ul>
-      <li><a href="https://comshalom.org/" target="_blank" rel="noopener">Comunidade Shalom</a></li>
-      <li><a href="https://www.cancaonova.com/" target="_blank" rel="noopener">Canção Nova</a></li>
-      <li><a href="https://padrepauloricardo.org/" target="_blank" rel="noopener">Pe. Paulo Ricardo</a></li>
-      <li><a href="https://www.vatican.va/content/vatican/pt.html" target="_blank" rel="noopener">Vaticano (site oficial)</a></li>
-      <li><a href="https://livrariaguilhermefreire.com.br/" target="_blank" rel="noopener">Livraria G. Freire</a></li>
-      <li><a href="https://www.vaticannews.va/pt.html" target="_blank" rel="noopener">Vatican News</a></li>
-    </ul>
-  </section>
-
   <footer>
+    <div class="recommendations">
+      <h3>Recomendações de sites católicos</h3>
+      <ul>
+        <li><a href="https://comshalom.org/" target="_blank"><i class="fas fa-hand-holding-heart"></i>ComShalom</a></li>
+        <li><a href="https://www.cancaonova.com/" target="_blank"><i class="fas fa-music"></i>Canção Nova</a></li>
+        <li><a href="https://padrepauloricardo.org/" target="_blank"><i class="fas fa-chalkboard-teacher"></i>Pe Paulo Ricardo</a></li>
+        <li><a href="https://livrariaguilhermefreire.com.br/" target="_blank"><i class="fas fa-book-open"></i>Livraria Guilherme Freire</a></li>
+        <li><a href="https://www.vaticannews.va/pt.html" target="_blank"><i class="fas fa-newspaper"></i>Vatican News</a></li>
+        <li><a href="https://www.vatican.va/content/vatican/pt.html" target="_blank"><i class="fas fa-globe"></i>Santa Sé</a></li>
+      </ul>
+    </div>
     <p>© 2025 Vivendo a Obra Nova</p>
   </footer>
 
