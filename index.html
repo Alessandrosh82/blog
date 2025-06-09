@@ -21,44 +21,76 @@
       max-width: 900px;
       margin: 0 auto;
       text-align: justify;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
     }
 
     header h1 {
+      font-family: Georgia, "Times New Roman", serif;
       font-weight: 700;
-      font-size: 2.5rem;
+      font-size: 3rem;
       color: #2c3e50;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.04em;
+    }
+
+    header p.subtitle {
+      color: #3a6351;
+      font-style: italic;
+      font-weight: 600;
+      font-size: 1.2rem;
       margin-bottom: 0.5rem;
     }
 
-    header p {
-      color: #555;
-      margin-bottom: 0.3rem;
+    header p.quote {
+      color: #6c7a89;
       font-style: italic;
+      font-size: 1rem;
+      font-weight: 400;
     }
 
     main {
       display: flex;
       flex-direction: column;
       gap: 2rem;
+      flex-grow: 1;
     }
 
     article {
       background: #fff;
-      padding: 1.5rem 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-      text-align: justify;
+      padding: 1.8rem 2.2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+      text-align: left;
+      transition: box-shadow 0.3s ease;
+    }
+
+    article:hover {
+      box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
     }
 
     article h2 {
-      color: #34495e;
-      margin-bottom: 0.3rem;
-      text-align: left;
+      color: #2a3d45;
+      margin-bottom: 0.4rem;
+      font-size: 1.7rem;
+      font-weight: 700;
+    }
+
+    article h2 a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+
+    article h2 a:hover {
+      color: #1b6b54;
+      text-decoration: underline;
     }
 
     article time {
@@ -66,16 +98,24 @@
       font-size: 0.9rem;
       color: #7f8c8d;
       margin-bottom: 1rem;
-      text-align: left;
+      font-style: normal;
     }
 
-    article a {
-      text-decoration: none;
-      color: #0066cc;
+    article p.preview {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.4;
+      margin-top: 0.5rem;
+      max-height: 4.2em; /* cerca de 3 linhas */
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    article a:hover {
-      text-decoration: underline;
+    /* Destaque para o último post */
+    article.latest-post {
+      border: 2.5px solid #1b6b54;
+      background: #e8f5f1;
+      box-shadow: 0 6px 25px rgb(27 107 84 / 0.25);
     }
 
     footer {
@@ -83,6 +123,7 @@
       margin-top: 4rem;
       font-size: 0.9rem;
       color: #aaa;
+      user-select: none;
     }
 
     /* Responsividade */
@@ -91,10 +132,22 @@
         padding: 15px;
       }
       header h1 {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
+      }
+      header p.subtitle {
+        font-size: 1rem;
+      }
+      main {
+        gap: 1.5rem;
       }
       article {
-        padding: 1rem 1.2rem;
+        padding: 1.2rem 1.5rem;
+      }
+      article h2 {
+        font-size: 1.4rem;
+      }
+      article p.preview {
+        max-height: 5em;
       }
     }
   </style>
@@ -102,8 +155,8 @@
 <body>
   <header>
     <h1>Vivendo a Obra Nova</h1>
-    <p>blog católico</p>
-    <p>“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis?”</p>
+    <p class="subtitle">blog católico</p>
+    <p class="quote">“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis?”</p>
   </header>
 
   <main id="posts-container">
@@ -115,7 +168,7 @@
   </footer>
 
   <script>
-    // Função para formatar data em pt-BR
+    // Formata data para pt-BR
     function formatDate(dateStr) {
       const date = new Date(dateStr);
       return date.toLocaleDateString("pt-BR", {
@@ -125,6 +178,17 @@
       });
     }
 
+    // Função para limpar tags HTML do conteúdo e criar preview curto
+    function createPreview(htmlContent, maxLength = 180) {
+      const div = document.createElement("div");
+      div.innerHTML = htmlContent;
+      const text = div.textContent || div.innerText || "";
+      if (text.length > maxLength) {
+        return text.slice(0, maxLength).trim() + "...";
+      }
+      return text;
+    }
+
     async function loadPosts() {
       try {
         const response = await fetch("posts.json");
@@ -132,16 +196,21 @@
 
         const posts = await response.json();
 
-        // Ordena por data decrescente
+        // Ordena por data decrescente (mais recente primeiro)
         posts.sort((a, b) => new Date(b.data) - new Date(a.data));
 
         const container = document.getElementById("posts-container");
         container.innerHTML = "";
 
-        posts.forEach(post => {
+        posts.forEach((post, index) => {
           const article = document.createElement("article");
 
-          // Título linka para a página do post
+          // Último post em destaque
+          if (index === 0) {
+            article.classList.add("latest-post");
+          }
+
+          // Título com link
           const title = document.createElement("h2");
           const link = document.createElement("a");
           link.href = `post.html?id=${post.id}`;
@@ -154,6 +223,12 @@
           time.setAttribute("datetime", post.data);
           time.textContent = formatDate(post.data);
           article.appendChild(time);
+
+          // Preview do conteúdo
+          const preview = document.createElement("p");
+          preview.classList.add("preview");
+          preview.textContent = createPreview(post.conteudo);
+          article.appendChild(preview);
 
           container.appendChild(article);
         });
