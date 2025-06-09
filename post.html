@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vivendo a Obra Nova</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     body {
@@ -80,9 +81,9 @@
         const resposta = await fetch('posts.json');
         const posts = await resposta.json();
 
-        // Pega o parâmetro "id" da URL
+        // Pega o parâmetro "id" da URL e converte para número
         const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
+        const id = Number(params.get('id'));
 
         // Encontra o post com o id correspondente
         const post = posts.find(p => p.id === id);
