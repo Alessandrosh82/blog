@@ -5,45 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vivendo a Obra Nova - Post</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      background: #fff;
-      color: #222;
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f6f3;
+      color: #333;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: justify;
+    }
+
     header, footer {
       text-align: center;
       margin-bottom: 2rem;
       color: #555;
     }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      text-align: center;
+
+    header h1 {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #2c3e50;
     }
-    time {
+
+    .back-link {
       display: block;
-      margin-bottom: 1.5rem;
-      color: #888;
-      font-size: 0.9rem;
+      margin-bottom: 2rem;
       text-align: center;
     }
-    article {
-      line-height: 1.6;
-    }
-    a {
+
+    .back-link a {
       color: #0066cc;
       text-decoration: none;
+      font-weight: 600;
     }
-    a:hover {
+
+    .back-link a:hover {
       text-decoration: underline;
     }
-    .back-link {
-      margin-bottom: 2rem;
+
+    article h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      text-align: left;
+      color: #34495e;
+    }
+
+    article time {
       display: block;
-      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    article div {
+      /* Conteúdo do post */
+      text-align: justify;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+      header h1 {
+        font-size: 1.8rem;
+      }
+      article h1 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -55,6 +98,10 @@
   <main id="post-container">
     <!-- Post será inserido aqui pelo JS -->
   </main>
+
+  <div class="back-link">
+    <a href="index.html">&larr; Voltar ao blog</a>
+  </div>
 
   <footer>
     <p>© 2025 Vivendo a Obra Nova</p>
@@ -127,4 +174,3 @@
   </script>
 </body>
 </html>
-
