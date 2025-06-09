@@ -3,138 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vivendo a Obra Nova</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet" />
+  <title>Vivendo a Obra Nova - Blog Católico</title>
   <style>
     body {
-      font-family: "Open Sans", sans-serif;
-      background-color: #fffdf9;
-      color: #333;
-      margin: 0;
-      padding: 0 20px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      background: #fff;
+      color: #222;
     }
-    header {
+    header, footer {
       text-align: center;
-      margin-top: 40px;
-      margin-bottom: 50px;
+      margin-bottom: 2rem;
+      color: #555;
     }
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8em;
-      color: #1a2a4f;
-      margin-bottom: 10px;
-    }
-    .descricao {
-      font-size: 0.9em;
-      color: #555;
-      margin-top: -5px;
-      font-style: italic;
-    }
-    .versiculo {
-      font-size: 1.1em;
-      margin-top: 20px;
-      color: #444;
-      font-weight: bold;
-    }
-    article {
-      margin-bottom: 40px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 30px;
+      font-size: 2.4rem;
+      margin-bottom: 0.3rem;
     }
     h2 {
-      margin-bottom: 5px;
-      font-size: 1.7em;
+      font-size: 1.5rem;
+      margin-bottom: 0.3rem;
     }
-    .data {
-      color: #777;
-      font-size: 0.9em;
-      margin-bottom: 15px;
+    article {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
     }
-    .preview {
-      display: block;
-      line-height: 1.6;
-      margin-bottom: 10px;
+    time {
+      color: #888;
+      font-size: 0.9rem;
+    }
+    a {
       text-decoration: none;
-      color: #333;
-      /* removendo <p> do preview */
-      white-space: pre-wrap;
+      color: #0066cc;
     }
-    .preview:hover {
-      color: #0077cc;
-    }
-    footer {
-      text-align: center;
-      margin: 60px 0 30px;
-      font-size: 0.9em;
-      color: #777;
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Vivendo a Obra Nova</h1>
-    <div class="descricao">blog católico</div>
-    <div class="versiculo">“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis?”</div>
+    <p>blog católico</p>
+    <p>“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis?”</p>
   </header>
 
-  <main id="posts"></main>
+  <main id="posts-container">
+    <!-- Lista de posts será inserida aqui pelo JS -->
+  </main>
 
   <footer>
-    © 2025 Vivendo a Obra Nova
+    <p>© 2025 Vivendo a Obra Nova</p>
   </footer>
 
   <script>
-    async function carregarPosts() {
-      try {
-        const resposta = await fetch('posts.json');
-        const posts = await resposta.json();
+    // Função para formatar data em pt-BR
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString("pt-BR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    }
 
-        const container = document.getElementById('posts');
-        container.innerHTML = '';  // limpa o container antes
+    async function loadPosts() {
+      try {
+        const response = await fetch("posts.json");
+        if (!response.ok) throw new Error("Erro ao carregar o JSON");
+
+        const posts = await response.json();
+
+        // Ordena por data decrescente
+        posts.sort((a, b) => new Date(b.data) - new Date(a.data));
+
+        const container = document.getElementById("posts-container");
+        container.innerHTML = "";
 
         posts.forEach(post => {
-          const artigo = document.createElement('article');
+          const article = document.createElement("article");
 
-          // Título
-          const titulo = document.createElement('h2');
-          titulo.textContent = post.titulo;
+          // Título linka para a página do post
+          const title = document.createElement("h2");
+          const link = document.createElement("a");
+          link.href = `post.html?id=${post.id}`;
+          link.textContent = post.titulo;
+          title.appendChild(link);
+          article.appendChild(title);
 
-          // Data formatada em pt-BR (ex: 3 de junho de 2025)
-          const data = document.createElement('div');
-          const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
-          const dataFormatada = new Date(post.data).toLocaleDateString('pt-BR', opcoes);
-          data.textContent = dataFormatada;
-          data.className = 'data';
+          // Data formatada
+          const time = document.createElement("time");
+          time.setAttribute("datetime", post.data);
+          time.textContent = formatDate(post.data);
+          article.appendChild(time);
 
-          // Criar preview removendo tags HTML (especialmente <p>) e limitando a 280 caracteres
-          const divConteudo = document.createElement('div');
-          divConteudo.innerHTML = post.conteudo;
-          const textoPlano = divConteudo.textContent || divConteudo.innerText || '';
-          const previewTexto = textoPlano.length > 280 ? textoPlano.slice(0, 280) + '...' : textoPlano;
-
-          const preview = document.createElement('a');
-          preview.className = 'preview';
-          preview.href = `post.html?id=${encodeURIComponent(post.id)}`;
-          preview.textContent = previewTexto;
-
-          // Monta o artigo
-          artigo.appendChild(titulo);
-          artigo.appendChild(data);
-          artigo.appendChild(preview);
-
-          container.appendChild(artigo);
+          container.appendChild(article);
         });
-      } catch (erro) {
-        const container = document.getElementById('posts');
-        container.innerHTML = '<p>Não foi possível carregar os posts.</p>';
-        console.error('Erro ao carregar posts:', erro);
+      } catch (error) {
+        console.error(error);
+        const container = document.getElementById("posts-container");
+        container.textContent = "Erro ao carregar os posts.";
       }
     }
 
-    carregarPosts();
+    window.addEventListener("DOMContentLoaded", loadPosts);
   </script>
 </body>
 </html>
