@@ -5,42 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vivendo a Obra Nova - Blog Católico</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      background: #fff;
-      color: #222;
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    header, footer {
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f6f3;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: justify;
+    }
+
+    header {
       text-align: center;
       margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
       color: #555;
-    }
-    h1 {
-      font-size: 2.4rem;
       margin-bottom: 0.3rem;
+      font-style: italic;
     }
-    h2 {
-      font-size: 1.5rem;
-      margin-bottom: 0.3rem;
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
     }
+
     article {
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
+      background: #fff;
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      text-align: justify;
     }
-    time {
-      color: #888;
+
+    article h2 {
+      color: #34495e;
+      margin-bottom: 0.3rem;
+      text-align: left;
+    }
+
+    article time {
+      display: block;
       font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-bottom: 1rem;
+      text-align: left;
     }
-    a {
+
+    article a {
       text-decoration: none;
       color: #0066cc;
     }
-    a:hover {
+
+    article a:hover {
       text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+      header h1 {
+        font-size: 1.8rem;
+      }
+      article {
+        padding: 1rem 1.2rem;
+      }
     }
   </style>
 </head>
