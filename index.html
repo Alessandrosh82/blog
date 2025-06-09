@@ -4,107 +4,98 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vivendo a Obra Nova</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-color: #fdfdfd;
-      --text-color: #2c2c2c;
-      --accent-color: #0056b3;
-      --border-color: #eaeaea;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
+      font-family: "Open Sans", sans-serif;
+      background-color: #fffdf9;
+      color: #333;
       margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: white;
-      padding: 40px 20px 30px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    h1 {
-      font-size: 2.8em;
-      margin: 0;
-      font-weight: 600;
-      color: var(--accent-color);
-    }
-
-    main {
-      max-width: 800px;
-      margin: 40px auto;
       padding: 0 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
-
-    article {
-      margin-bottom: 40px;
-      padding-bottom: 30px;
-      border-bottom: 1px solid var(--border-color);
+    header {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 50px;
     }
-
-    h2 {
-      font-size: 1.6em;
-      margin-bottom: 5px;
-      color: var(--text-color);
-    }
-
-    .data {
-      font-size: 0.9em;
-      color: #888;
-      margin-bottom: 12px;
-    }
-
-    .preview {
-      line-height: 1.7;
-      font-size: 1em;
-      color: #444;
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8em;
+      color: #1a2a4f;
       margin-bottom: 10px;
     }
-
-    .ler-mais {
-      background: none;
-      border: none;
-      color: var(--accent-color);
-      font-size: 0.95em;
-      font-weight: 500;
-      cursor: pointer;
-      padding: 0;
-      margin: 0;
-      text-decoration: underline;
+    .descricao {
+      font-size: 0.9em;
+      color: #555;
+      margin-top: -5px;
+      font-style: italic;
     }
-
+    .versiculo {
+      font-size: 1.1em;
+      margin-top: 20px;
+      color: #444;
+      font-weight: bold;
+      background-color: #f3f2ee;
+      padding: 15px;
+      border-left: 4px solid #1a2a4f;
+    }
+    article {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 30px;
+    }
+    h2 {
+      margin-bottom: 5px;
+      font-size: 1.7em;
+    }
+    .data {
+      color: #777;
+      font-size: 0.9em;
+      margin-bottom: 15px;
+    }
+    .preview {
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .ler-mais {
+      color: #0077cc;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.95em;
+      border: none;
+      background: none;
+      padding: 0;
+      margin-top: 5px;
+    }
     .conteudo-completo {
       display: none;
       margin-top: 15px;
-      line-height: 1.7;
+      line-height: 1.6;
     }
-
     footer {
       text-align: center;
+      margin: 60px 0 30px;
       font-size: 0.9em;
-      color: #aaa;
-      padding: 40px 20px 30px;
-      border-top: 1px solid var(--border-color);
-      margin-top: 60px;
+      color: #777;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Vivendo a Obra Nova</h1>
+    <div class="descricao">blog católico</div>
+    <div class="versiculo">“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis?”</div>
   </header>
+
   <main id="posts"></main>
+
   <footer>
     © 2025 Vivendo a Obra Nova
   </footer>
+
   <script>
     async function carregarPosts() {
       try {
@@ -113,7 +104,7 @@
 
         const container = document.getElementById('posts');
 
-        posts.forEach((post) => {
+        posts.forEach((post, index) => {
           const artigo = document.createElement('article');
 
           const titulo = document.createElement('h2');
@@ -164,4 +155,3 @@
   </script>
 </body>
 </html>
-
