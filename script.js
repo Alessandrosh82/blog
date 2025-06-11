@@ -31,6 +31,10 @@ async function loadPosts() {
     container.innerHTML = "";
 
     posts.forEach((post) => {
+      // Cria o container com fundo amarelinho
+      const wrapper = document.createElement("div");
+      wrapper.className = "article-container";
+
       const article = document.createElement("article");
 
       // Título
@@ -44,12 +48,14 @@ async function loadPosts() {
       time.textContent = formatDate(post.data);
       article.appendChild(time);
 
-      // Conteúdo em HTML (assumindo que o conteúdo já está seguro e validado)
+      // Conteúdo em HTML
       const content = document.createElement("div");
       content.innerHTML = post.conteudo;
       article.appendChild(content);
 
-      container.appendChild(article);
+      // Envolve o artigo no wrapper estilizado
+      wrapper.appendChild(article);
+      container.appendChild(wrapper);
     });
   } catch (error) {
     console.error("Erro ao carregar posts:", error);
