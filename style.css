@@ -86,4 +86,12 @@ footer {
   article {
     padding: 1rem 1.2rem;
   }
+  .article-container {
+  background-color: #fff9e6; /* amarelinho suave tipo página de livro */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
 }
