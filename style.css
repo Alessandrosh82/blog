@@ -5,6 +5,7 @@
   box-sizing: border-box;
 }
 
+/* Corpo do site */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: #f7f6f3;
@@ -13,9 +14,10 @@ body {
   padding: 20px;
   max-width: 900px;
   margin: 0 auto;
-  text-align: justify; /* justifica o texto em todo o corpo */
+  text-align: justify;
 }
 
+/* Cabeçalho */
 header {
   text-align: center;
   margin-bottom: 2rem;
@@ -28,24 +30,25 @@ header h1 {
   margin-bottom: 0.5rem;
 }
 
+/* Container principal */
 main {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
+/* Estilo dos artigos */
 article {
   background: #fff;
   padding: 1.5rem 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-  text-align: justify; /* justifica o texto dentro do artigo */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
 article h2 {
   color: #34495e;
   margin-bottom: 0.3rem;
-  text-align: left; /* títulos alinhados à esquerda */
+  text-align: left;
 }
 
 article time {
@@ -60,6 +63,7 @@ article p {
   margin-bottom: 1rem;
 }
 
+/* Citações */
 blockquote {
   margin: 1rem 0;
   padding-left: 1rem;
@@ -68,6 +72,7 @@ blockquote {
   font-style: italic;
 }
 
+/* Rodapé */
 footer {
   text-align: center;
   margin-top: 4rem;
@@ -75,18 +80,8 @@ footer {
   color: #aaa;
 }
 
-/* Responsividade */
-@media (max-width: 600px) {
-  body {
-    padding: 15px;
-  }
-  header h1 {
-    font-size: 1.8rem;
-  }
-  article {
-    padding: 1rem 1.2rem;
-  }
-  .article-container {
+/* Container extra (tipo página de livro) */
+.article-container {
   background-color: #fff9e6; /* amarelinho suave tipo página de livro */
   padding: 2rem;
   border-radius: 12px;
@@ -94,4 +89,18 @@ footer {
   margin-top: 2rem;
   margin-bottom: 3rem;
 }
+
+/* Responsividade */
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  article {
+    padding: 1rem 1.2rem;
+  }
 }
