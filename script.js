@@ -1,6 +1,7 @@
 // Função para formatar a data em português (ex: 3 de junho de 2025)
 function formatDate(dateStr) {
-  const date = new Date(dateStr);
+  const parts = dateStr.split("-"); // ["2025", "06", "12"]
+  const date = new Date(parts[0], parts[1] - 1, parts[2]); // Ano, mês (0-based), dia
   return date.toLocaleDateString("pt-BR", {
     day: "numeric",
     month: "long",
