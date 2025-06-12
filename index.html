@@ -242,77 +242,78 @@
   </footer>
 
   <script>
-    function formatDate(dateStr) {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString("pt-BR", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
+  function formatDate(dateStr) {
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const date = new Date(year, month - 1, day); // mês começa do 0
+    return date.toLocaleDateString("pt-BR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
+  function createPreview(htmlContent, maxLength = 160) {
+    const div = document.createElement("div");
+    div.innerHTML = htmlContent;
+    const text = div.textContent || div.innerText || "";
+    return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
+  }
+
+  async function loadPosts() {
+    try {
+      const response = await fetch("posts.json");
+      if (!response.ok) throw new Error("Erro ao carregar o JSON");
+
+      const posts = await response.json();
+      posts.sort((a, b) => new Date(b.data) - new Date(a.data));
+
+      const container = document.getElementById("posts-container");
+      container.innerHTML = "";
+
+      posts.forEach((post, index) => {
+        const article = document.createElement("article");
+
+        if (index === 0) {
+          article.classList.add("latest-post");
+          const label = document.createElement("div");
+          label.className = "latest-label";
+          label.textContent = "Última publicação";
+          article.appendChild(label);
+        }
+
+        const title = document.createElement("h2");
+        const link = document.createElement("a");
+        link.href = `post.html?id=${post.id}`;
+        link.textContent = post.titulo;
+        title.appendChild(link);
+
+        const time = document.createElement("time");
+        time.setAttribute("datetime", post.data);
+        time.textContent = formatDate(post.data);
+
+        const preview = document.createElement("p");
+        preview.classList.add("preview");
+        preview.textContent = createPreview(post.conteudo);
+
+        const readMore = document.createElement("a");
+        readMore.className = "read-more";
+        readMore.href = `post.html?id=${post.id}`;
+        readMore.textContent = "Ler mais →";
+
+        article.appendChild(title);
+        article.appendChild(time);
+        article.appendChild(preview);
+        article.appendChild(readMore);
+
+        container.appendChild(article);
       });
+    } catch (error) {
+      console.error(error);
+      document.getElementById("posts-container").textContent = "Erro ao carregar os posts.";
     }
+  }
 
-    function createPreview(htmlContent, maxLength = 160) {
-      const div = document.createElement("div");
-      div.innerHTML = htmlContent;
-      const text = div.textContent || div.innerText || "";
-      return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
-    }
-
-    async function loadPosts() {
-      try {
-        const response = await fetch("posts.json");
-        if (!response.ok) throw new Error("Erro ao carregar o JSON");
-
-        const posts = await response.json();
-        posts.sort((a, b) => new Date(b.data) - new Date(a.data));
-
-        const container = document.getElementById("posts-container");
-        container.innerHTML = "";
-
-        posts.forEach((post, index) => {
-          const article = document.createElement("article");
-
-          if (index === 0) {
-            article.classList.add("latest-post");
-            const label = document.createElement("div");
-            label.className = "latest-label";
-            label.textContent = "Última publicação";
-            article.appendChild(label);
-          }
-
-          const title = document.createElement("h2");
-          const link = document.createElement("a");
-          link.href = `post.html?id=${post.id}`;
-          link.textContent = post.titulo;
-          title.appendChild(link);
-
-          const time = document.createElement("time");
-          time.setAttribute("datetime", post.data);
-          time.textContent = formatDate(post.data);
-
-          const preview = document.createElement("p");
-          preview.classList.add("preview");
-          preview.textContent = createPreview(post.conteudo);
-
-          const readMore = document.createElement("a");
-          readMore.className = "read-more";
-          readMore.href = `post.html?id=${post.id}`;
-          readMore.textContent = "Ler mais →";
-
-          article.appendChild(title);
-          article.appendChild(time);
-          article.appendChild(preview);
-          article.appendChild(readMore);
-
-          container.appendChild(article);
-        });
-      } catch (error) {
-        console.error(error);
-        document.getElementById("posts-container").textContent = "Erro ao carregar os posts.";
-      }
-    }
-
-    window.addEventListener("DOMContentLoaded", loadPosts);
-  </script>
+  window.addEventListener("DOMContentLoaded", loadPosts);
+</script>
 </body>
 </html>
