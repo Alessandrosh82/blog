@@ -1,78 +1,322 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9092066779171811"
+     crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MDoces - Pedido de Doces</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vivendo a Obra Nova - Blog Católico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f6f3;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: justify;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    header h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.2rem;
+      color: #2c3e50;
+      margin-bottom: 0.3rem;
+    }
+
+    header p.subtitle {
+      color: #6c7a89;
+      font-style: italic;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p.quote {
+      color: #3a6351;
+      font-style: italic;
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      flex-grow: 1;
+    }
+
+    .latest-label {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #1b6b54;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    article {
+      background: #fff;
+      padding: 1.8rem 2.2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+      transition: box-shadow 0.3s ease;
+    }
+
+    article:hover {
+      box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
+    }
+
+    article h2 {
+      color: #2a3d45;
+      margin-bottom: 0.4rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    article h2 a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+
+    article h2 a:hover {
+      color: #1b6b54;
+      text-decoration: underline;
+    }
+
+    article time {
+      display: block;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    article p.preview {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.4;
+      margin-top: 0.5rem;
+      max-height: 4.5em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .read-more {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #0066cc;
+      text-align: right;
+      text-decoration: none;
+    }
+
+    .read-more:hover {
+      text-decoration: underline;
+    }
+
+    article.latest-post {
+      border: 2px solid #5b86a3;
+      background: #f0fbff;
+      box-shadow: 0 6px 25px rgb(27 107 84 / 0.25);
+    }
+
+    .recomendacoes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ccc;
+    }
+
+    .recomendacoes h3 {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .recomendacoes ul {
+      list-style: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .recomendacoes li a {
+      text-decoration: none;
+      color: #2c3e50;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .recomendacoes li a:hover {
+      color: #1b6b54;
+      text-decoration: underline;
+    }
+
+    .recomendacoes li i {
+      color: #999;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #aaa;
+      user-select: none;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+      }
+
+      header p.subtitle {
+        font-size: 0.95rem;
+      }
+
+      article {
+        padding: 1.2rem 1.5rem;
+      }
+
+      article h2 {
+        font-size: 1.4rem;
+      }
+
+      article p.preview {
+        max-height: 5em;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>MDoces</h1>
-    <p>Peça aqui seus doces favoritos</p>
+    <h1>Vivendo a Obra Nova</h1>
+    <p class="subtitle">blog católico</p>
+    <p class="quote">“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis? Is 43,19”</p>
   </header>
 
-  <main class="container">
-    <div id="produtos"></div>
-
-    <aside id="carrinho">
-      <h2>Carrinho <span id="carrinho-badge"></span></h2>
-      <ul id="itens-carrinho"></ul>
-      <div id="total">Total: R$ 0,00</div>
-
-      <form id="form-pedido">
-        <label for="nome">Seu nome:</label>
-        <input type="text" id="nome" placeholder="Nome" required />
-
-        <label for="numero">WhatsApp (apenas números):</label>
-        <input type="tel" id="numero" placeholder="Ex: 11999999999" required />
-
-        <label for="endereco">Endereço para entrega:</label>
-        <textarea id="endereco" placeholder="Rua, número, bairro..." required></textarea>
-
-        <label for="observacao">Observações:</label>
-        <textarea id="observacao" placeholder="Ex: Sem granulado, trocar recheio..."></textarea>
-
-        <button type="button" class="btn-finalizar" onclick="enviarPedido()">Finalizar Pedido via WhatsApp</button>
-      </form>
-    </aside>
+  <main id="posts-container">
+    <!-- Posts serão inseridos aqui -->
   </main>
 
+  <section class="recomendacoes">
+    <h3>Recomendações</h3>
+    <ul>
+      <li><a href="https://comshalom.org/" target="_blank"><i class="fas fa-link"></i>Comunidade Shalom</a></li>
+      <li><a href="https://www.cancaonova.com/" target="_blank"><i class="fas fa-link"></i>Canção Nova</a></li>
+      <li><a href="https://padrepauloricardo.org/" target="_blank"><i class="fas fa-link"></i>Padre Paulo Ricardo</a></li>
+      <li><a href="https://livrariaguilhermefreire.com.br/" target="_blank"><i class="fas fa-link"></i>Livraria Guilherme Freire</a></li>
+      <li><a href="https://www.vaticannews.va/pt.html" target="_blank"><i class="fas fa-link"></i>Vatican News</a></li>
+      <li><a href="https://www.vatican.va/content/vatican/pt.html" target="_blank"><i class="fas fa-link"></i>Vaticano</a></li>
+    </ul>
+  </section>
+
   <footer>
-    <p>© 2025 MDoces. Todos os direitos reservados. <a href="admin.html" class="admin-link">Área Administrativa</a></p>
+    <p>© 2025 Vivendo a Obra Nova</p>
   </footer>
 
   <script>
-    const listaProdutos = [
-      {
-        id: 1,
-        nome: "Brigadeiro Gourmet",
-        descricao: "Brigadeiro tradicional feito com chocolate belga.",
-        preco: 2.5,
-        imagem: "https://via.placeholder.com/100x100",
-        categoria: "Doces"
-      },
-      {
-        id: 2,
-        nome: "Beijinho",
-        descricao: "Docinho de coco com leite condensado.",
-        preco: 2.5,
-        imagem: "https://via.placeholder.com/100x100",
-        categoria: "Doces"
-      },
-      {
-        id: 3,
-        nome: "Bolo de Pote",
-        descricao: "Camadas de bolo e recheio de leite ninho com morango.",
-        preco: 8.0,
-        imagem: "https://via.placeholder.com/100x100",
-        categoria: "Bolos"
-      }
-    ];
-  </script>
-  <script src="script.js"></script>
+  function formatDate(dateStr) {
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const date = new Date(year, month - 1, day); // mês começa do 0
+    return date.toLocaleDateString("pt-BR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
+  function createPreview(htmlContent, maxLength = 160) {
+    const div = document.createElement("div");
+    div.innerHTML = htmlContent;
+    const text = div.textContent || div.innerText || "";
+    return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
+  }
+
+  async function loadPosts() {
+    try {
+      const response = await fetch("posts.json");
+      if (!response.ok) throw new Error("Erro ao carregar o JSON");
+
+      const posts = await response.json();
+      posts.sort((a, b) => new Date(b.data) - new Date(a.data));
+
+      const container = document.getElementById("posts-container");
+      container.innerHTML = "";
+
+      posts.forEach((post, index) => {
+        const article = document.createElement("article");
+
+        if (index === 0) {
+          article.classList.add("latest-post");
+          const label = document.createElement("div");
+          label.className = "latest-label";
+          label.textContent = "Última publicação";
+          article.appendChild(label);
+        }
+
+        const title = document.createElement("h2");
+        const link = document.createElement("a");
+        link.href = `post.html?id=${post.id}`;
+        link.textContent = post.titulo;
+        title.appendChild(link);
+
+        const time = document.createElement("time");
+        time.setAttribute("datetime", post.data);
+        time.textContent = formatDate(post.data);
+
+        const preview = document.createElement("p");
+        preview.classList.add("preview");
+        preview.textContent = createPreview(post.conteudo);
+
+        const readMore = document.createElement("a");
+        readMore.className = "read-more";
+        readMore.href = `post.html?id=${post.id}`;
+        readMore.textContent = "Ler mais →";
+
+        article.appendChild(title);
+        article.appendChild(time);
+        article.appendChild(preview);
+        article.appendChild(readMore);
+
+        container.appendChild(article);
+      });
+    } catch (error) {
+      console.error(error);
+      document.getElementById("posts-container").textContent = "Erro ao carregar os posts.";
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", loadPosts);
+</script>
 </body>
 </html>
