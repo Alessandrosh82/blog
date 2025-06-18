@@ -1,120 +1,157 @@
-// Seletores e variáveis globais
-const produtosContainer = document.getElementById('produtos');
-const carrinhoLista = document.getElementById('itens-carrinho');
-const totalSpan = document.getElementById('total');
-const form = document.getElementById('form-pedido');
-const nomeInput = document.getElementById('nome');
-const obsInput = document.getElementById('observacoes');
-const numeroInput = document.getElementById('whatsapp');
+// script.js atualizado com melhorias
 
-let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+// Utilidades
+function salvarLocalmente(nome, valor) {
+  localStorage.setItem(nome, valor);
+}
 
-function salvarCarrinho() {
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
+function carregarLocalmente(nome) {
+  return localStorage.getItem(nome) || "";
+}
+
+function criarMensagem(texto, cor = '#25d366') {
+  const msg = document.createElement('div');
+  msg.textContent = texto;
+  msg.style.position = 'fixed';
+  msg.style.bottom = '1rem';
+  msg.style.left = '50%';
+  msg.style.transform = 'translateX(-50%)';
+  msg.style.background = cor;
+  msg.style.color = 'white';
+  msg.style.padding = '0.8rem 1.2rem';
+  msg.style.borderRadius = '12px';
+  msg.style.zIndex = '9999';
+  msg.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+  document.body.appendChild(msg);
+  setTimeout(() => msg.remove(), 2000);
+}
+
+// Produtos e carrinho
+let produtos = [];
+let carrinho = [];
+
+function carregarProdutos() {
+  const container = document.getElementById("produtos");
+  container.innerHTML = "";
+  const categorias = [...new Set(produtos.map(p => p.categoria))];
+
+  categorias.forEach(categoria => {
+    const secao = document.createElement("section");
+    const titulo = document.createElement("h2");
+    titulo.textContent = categoria;
+    secao.appendChild(titulo);
+
+    produtos.filter(p => p.categoria === categoria).forEach(produto => {
+      const el = document.createElement("div");
+      el.className = "produto";
+      el.innerHTML = `
+        <img src="${produto.imagem}" alt="${produto.nome}" style="max-width:100%; height:auto" />
+        <h3>${produto.nome}</h3>
+        <p>${produto.descricao}</p>
+        <strong>R$ ${produto.preco.toFixed(2)}</strong>
+        <div class="quantidade-container">
+          <button onclick="alterarQtd(${produto.id}, -1)">-</button>
+          <span id="qtd-${produto.id}">1</span>
+          <button onclick="alterarQtd(${produto.id}, 1)">+</button>
+        </div>
+        <button onclick="adicionarAoCarrinho(${produto.id})">Adicionar ao Carrinho</button>
+      `;
+      secao.appendChild(el);
+    });
+
+    container.appendChild(secao);
+  });
+}
+
+function alterarQtd(id, delta) {
+  const span = document.getElementById(`qtd-${id}`);
+  let qtd = parseInt(span.textContent);
+  qtd = Math.max(1, qtd + delta);
+  span.textContent = qtd;
+}
+
+function adicionarAoCarrinho(id) {
+  const qtd = parseInt(document.getElementById(`qtd-${id}`).textContent);
+  const produto = produtos.find(p => p.id === id);
+  const existente = carrinho.find(i => i.id === id);
+
+  if (existente) {
+    existente.qtd += qtd;
+  } else {
+    carrinho.push({ ...produto, qtd });
+  }
+
+  criarMensagem('Adicionado ao carrinho ✅');
+  atualizarCarrinho();
+}
+
+function removerDoCarrinho(id) {
+  carrinho = carrinho.filter(p => p.id !== id);
+  atualizarCarrinho();
 }
 
 function atualizarCarrinho() {
-  carrinhoLista.innerHTML = '';
+  const lista = document.getElementById("itens-carrinho");
+  const badge = document.getElementById("carrinho-badge");
+  lista.innerHTML = "";
   let total = 0;
-  carrinho.forEach((item, index) => {
-    const li = document.createElement('li');
+  let quantidadeTotal = 0;
+
+  carrinho.forEach(item => {
+    total += item.preco * item.qtd;
+    quantidadeTotal += item.qtd;
+
+    const li = document.createElement("li");
     li.innerHTML = `
-      ${item.quantidade}x ${item.nome} - R$ ${(item.preco * item.quantidade).toFixed(2)}
-      <button onclick="removerItem(${index})">X</button>
+      ${item.nome} x${item.qtd}
+      <button onclick="removerDoCarrinho(${item.id})">X</button>
     `;
-    carrinhoLista.appendChild(li);
-    total += item.preco * item.quantidade;
+    lista.appendChild(li);
   });
-  totalSpan.textContent = 'Total: R$ ' + total.toFixed(2);
-  salvarCarrinho();
+
+  document.getElementById("total").textContent = `Total: R$ ${total.toFixed(2)}`;
+  badge.textContent = quantidadeTotal > 0 ? quantidadeTotal : "";
 }
 
-function removerItem(index) {
-  carrinho.splice(index, 1);
-  atualizarCarrinho();
-}
+// Pedido via WhatsApp
+function enviarPedido() {
+  const nome = document.getElementById("nome").value;
+  const endereco = document.getElementById("endereco").value;
+  const observacao = document.getElementById("observacao").value;
+  const numero = document.getElementById("numero").value;
 
-function adicionarAoCarrinho(produto) {
-  const existente = carrinho.find(p => p.nome === produto.nome);
-  if (existente) {
-    existente.quantidade += produto.quantidade;
-  } else {
-    carrinho.push(produto);
-  }
-  atualizarCarrinho();
-}
-
-function renderizarProdutos() {
-  produtosContainer.innerHTML = '';
-  const categorias = [...new Set(produtos.map(p => p.categoria))];
-
-  categorias.forEach(cat => {
-    const sec = document.createElement('section');
-    const titulo = document.createElement('h2');
-    titulo.textContent = cat;
-    sec.appendChild(titulo);
-
-    produtos.filter(p => p.categoria === cat).forEach((p, index) => {
-      const div = document.createElement('div');
-      div.className = 'produto';
-      div.innerHTML = `
-        <img src="${p.imagem}" alt="${p.nome}" style="max-width: 100%; height: auto;">
-        <h3>${p.nome}</h3>
-        <p>${p.descricao}</p>
-        <strong>R$ ${p.preco.toFixed(2)}</strong>
-        <div class="quantidade-container">
-          <button onclick="alterarQtd(${index}, -1)">-</button>
-          <span id="qtd-${index}">1</span>
-          <button onclick="alterarQtd(${index}, 1)">+</button>
-        </div>
-        <button onclick="addProduto(${index})">Adicionar</button>
-      `;
-      sec.appendChild(div);
-    });
-
-    produtosContainer.appendChild(sec);
-  });
-}
-
-const quantidades = {};
-function alterarQtd(index, delta) {
-  if (!quantidades[index]) quantidades[index] = 1;
-  quantidades[index] = Math.max(1, quantidades[index] + delta);
-  document.getElementById('qtd-' + index).textContent = quantidades[index];
-}
-
-function addProduto(index) {
-  const p = produtos[index];
-  const quantidade = quantidades[index] || 1;
-  adicionarAoCarrinho({
-    nome: p.nome,
-    preco: p.preco,
-    quantidade
-  });
-}
-
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  if (carrinho.length === 0) {
-    alert('O carrinho está vazio!');
+  if (!nome || !endereco || !numero) {
+    alert("Preencha nome, número e endereço.");
     return;
   }
 
-  const nome = nomeInput.value.trim();
-  const obs = obsInput.value.trim();
-  const numero = numeroInput.value.replace(/\D/g, '');
-  const msg = `*Novo pedido de ${nome}*%0A%0A` +
-    carrinho.map(i => `• ${i.quantidade}x ${i.nome} - R$ ${(i.preco * i.quantidade).toFixed(2)}`).join('%0A') +
-    `%0A%0A*Total:* R$ ${carrinho.reduce((t, i) => t + i.preco * i.quantidade, 0).toFixed(2)}%0A` +
-    (obs ? `%0A*Observações:* ${obs}` : '');
+  salvarLocalmente("nome", nome);
+  salvarLocalmente("numero", numero);
+  salvarLocalmente("endereco", endereco);
 
-  window.open(`https://wa.me/${numero}?text=${msg}`, '_blank');
-  carrinho = [];
-  atualizarCarrinho();
-  form.reset();
-});
+  let mensagem = `*Novo pedido de ${nome}*\n\n`;
+  carrinho.forEach(item => {
+    mensagem += `• ${item.nome} x${item.qtd} = R$ ${(item.preco * item.qtd).toFixed(2)}\n`;
+  });
+  const total = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+  mensagem += `\n*Total:* R$ ${total.toFixed(2)}\n`;
+  mensagem += `\n*Endereço:* ${endereco}`;
+  if (observacao) mensagem += `\n*Obs:* ${observacao}`;
+
+  const tel = numero.replace(/\D/g, "");
+  const link = `https://wa.me/55${tel}?text=${encodeURIComponent(mensagem)}`;
+  window.open(link, "_blank");
+}
 
 // Inicialização
-renderizarProdutos();
-atualizarCarrinho();
+window.onload = () => {
+  if (typeof listaProdutos !== 'undefined') {
+    produtos = listaProdutos;
+    carregarProdutos();
+  }
+
+  document.getElementById("nome").value = carregarLocalmente("nome");
+  document.getElementById("numero").value = carregarLocalmente("numero");
+  document.getElementById("endereco").value = carregarLocalmente("endereco");
+  atualizarCarrinho();
+};
