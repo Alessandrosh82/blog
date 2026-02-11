@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,6 +8,7 @@
   <title>Vivendo a Obra Nova - Blog Católico</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     * {
       margin: 0;
@@ -103,14 +103,6 @@
     article h2 a:hover {
       color: #1b6b54;
       text-decoration: underline;
-    }
-
-    article time {
-      display: block;
-      font-size: 0.9rem;
-      color: #7f8c8d;
-      margin-bottom: 1rem;
-      text-align: center;
     }
 
     article p.preview {
@@ -217,106 +209,98 @@
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>Vivendo a Obra Nova</h1>
-    <p class="subtitle">blog católico</p>
-    <p class="quote">“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis? Is 43,19”</p>
-  </header>
 
-  <main id="posts-container">
-    <!-- Posts serão inseridos aqui -->
-  </main>
+<header>
+  <h1>Vivendo a Obra Nova</h1>
+  <p class="subtitle">blog católico</p>
+  <p class="quote">“Eis que faço uma obra nova: ela já está surgindo! Não o percebeis? Is 43,19”</p>
+</header>
 
-  <section class="recomendacoes">
-    <h3>Recomendações</h3>
-    <ul>
-      <li><a href="https://comshalom.org/" target="_blank"><i class="fas fa-link"></i>Comunidade Shalom</a></li>
-      <li><a href="https://www.cancaonova.com/" target="_blank"><i class="fas fa-link"></i>Canção Nova</a></li>
-      <li><a href="https://padrepauloricardo.org/" target="_blank"><i class="fas fa-link"></i>Padre Paulo Ricardo</a></li>
-      <li><a href="https://livrariaguilhermefreire.com.br/" target="_blank"><i class="fas fa-link"></i>Livraria Guilherme Freire</a></li>
-      <li><a href="https://www.vaticannews.va/pt.html" target="_blank"><i class="fas fa-link"></i>Vatican News</a></li>
-      <li><a href="https://www.vatican.va/content/vatican/pt.html" target="_blank"><i class="fas fa-link"></i>Vaticano</a></li>
-    </ul>
-  </section>
+<main id="posts-container">
+  <!-- Posts serão inseridos aqui -->
+</main>
 
-  <footer>
-    <p>© 2025 Vivendo a Obra Nova</p>
-  </footer>
+<section class="recomendacoes">
+  <h3>Recomendações</h3>
+  <ul>
+    <li><a href="https://comshalom.org/" target="_blank"><i class="fas fa-link"></i>Comunidade Shalom</a></li>
+    <li><a href="https://www.cancaonova.com/" target="_blank"><i class="fas fa-link"></i>Canção Nova</a></li>
+    <li><a href="https://padrepauloricardo.org/" target="_blank"><i class="fas fa-link"></i>Padre Paulo Ricardo</a></li>
+    <li><a href="https://livrariaguilhermefreire.com.br/" target="_blank"><i class="fas fa-link"></i>Livraria Guilherme Freire</a></li>
+    <li><a href="https://www.vaticannews.va/pt.html" target="_blank"><i class="fas fa-link"></i>Vatican News</a></li>
+    <li><a href="https://www.vatican.va/content/vatican/pt.html" target="_blank"><i class="fas fa-link"></i>Vaticano</a></li>
+  </ul>
+</section>
 
-  <script>
-  function formatDate(dateStr) {
-    const [year, month, day] = dateStr.split("-").map(Number);
-    const date = new Date(year, month - 1, day); // mês começa do 0
-    return date.toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
+<footer>
+  <p>© 2025 Vivendo a Obra Nova</p>
+</footer>
+
+<script>
+function createPreview(htmlContent, maxLength = 160) {
+  const div = document.createElement("div");
+  div.innerHTML = htmlContent;
+  const text = div.textContent || div.innerText || "";
+  return text.length > maxLength
+    ? text.slice(0, maxLength).trim() + "..."
+    : text;
+}
+
+async function loadPosts() {
+  try {
+    const response = await fetch("posts.json");
+    if (!response.ok) throw new Error("Erro ao carregar o JSON");
+
+    const posts = await response.json();
+    posts.sort((a, b) => new Date(b.data) - new Date(a.data));
+
+    const container = document.getElementById("posts-container");
+    container.innerHTML = "";
+
+    posts.forEach((post, index) => {
+      const article = document.createElement("article");
+
+      if (index === 0) {
+        article.classList.add("latest-post");
+        const label = document.createElement("div");
+        label.className = "latest-label";
+        label.textContent = "Última publicação";
+        article.appendChild(label);
+      }
+
+      const title = document.createElement("h2");
+      const link = document.createElement("a");
+      link.href = `post.html?id=${post.id}`;
+      link.textContent = post.titulo;
+      title.appendChild(link);
+
+      const preview = document.createElement("p");
+      preview.classList.add("preview");
+      preview.textContent = createPreview(post.conteudo);
+
+      const readMore = document.createElement("a");
+      readMore.className = "read-more";
+      readMore.href = `post.html?id=${post.id}`;
+      readMore.textContent = "Ler mais →";
+
+      article.appendChild(title);
+      article.appendChild(preview);
+      article.appendChild(readMore);
+
+      container.appendChild(article);
     });
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById("posts-container").textContent =
+      "Erro ao carregar os posts.";
   }
+}
 
-  function createPreview(htmlContent, maxLength = 160) {
-    const div = document.createElement("div");
-    div.innerHTML = htmlContent;
-    const text = div.textContent || div.innerText || "";
-    return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
-  }
-
-  async function loadPosts() {
-    try {
-      const response = await fetch("posts.json");
-      if (!response.ok) throw new Error("Erro ao carregar o JSON");
-
-      const posts = await response.json();
-      posts.sort((a, b) => new Date(b.data) - new Date(a.data));
-
-      const container = document.getElementById("posts-container");
-      container.innerHTML = "";
-
-      posts.forEach((post, index) => {
-        const article = document.createElement("article");
-
-        if (index === 0) {
-          article.classList.add("latest-post");
-          const label = document.createElement("div");
-          label.className = "latest-label";
-          label.textContent = "Última publicação";
-          article.appendChild(label);
-        }
-
-        const title = document.createElement("h2");
-        const link = document.createElement("a");
-        link.href = `post.html?id=${post.id}`;
-        link.textContent = post.titulo;
-        title.appendChild(link);
-
-        const time = document.createElement("time");
-        time.setAttribute("datetime", post.data);
-        time.textContent = formatDate(post.data);
-
-        const preview = document.createElement("p");
-        preview.classList.add("preview");
-        preview.textContent = createPreview(post.conteudo);
-
-        const readMore = document.createElement("a");
-        readMore.className = "read-more";
-        readMore.href = `post.html?id=${post.id}`;
-        readMore.textContent = "Ler mais →";
-
-        article.appendChild(title);
-        article.appendChild(time);
-        article.appendChild(preview);
-        article.appendChild(readMore);
-
-        container.appendChild(article);
-      });
-    } catch (error) {
-      console.error(error);
-      document.getElementById("posts-container").textContent = "Erro ao carregar os posts.";
-    }
-  }
-
-  window.addEventListener("DOMContentLoaded", loadPosts);
+window.addEventListener("DOMContentLoaded", loadPosts);
 </script>
+
 </body>
 </html>
