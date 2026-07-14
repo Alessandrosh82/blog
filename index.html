@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+  <script src="theme.js"></script>
+
   <style>
     * {
       margin: 0;
@@ -207,6 +209,41 @@
         max-height: 5em;
       }
     }
+
+
+    /* Configuração visual editável pelo painel administrativo. */
+    :root {
+      --body-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      --title-font: "Dancing Script", cursive;
+      --site-background: #f7f6f3;
+      --body-text: #333333;
+      --header-title: #2c3e50;
+      --subtitle: #6c7a89;
+      --quote: #3a6351;
+      --accent: #1b6b54;
+      --article-background: #ffffff;
+      --article-title: #2a3d45;
+      --link: #0066cc;
+      --latest-background: #f0fbff;
+      --latest-border: #5b86a3;
+      --post-background: #fff8dc;
+      --footer: #aaaaaa;
+    }
+
+    body { font-family: var(--body-font); background: var(--site-background); color: var(--body-text); }
+    header h1 { font-family: var(--title-font); color: var(--header-title); }
+    header p.subtitle { color: var(--subtitle); }
+    header p.quote { color: var(--quote); }
+    article { background: var(--article-background); }
+    article h2 { color: var(--article-title); }
+    article h2 a:hover { color: var(--accent); }
+    .latest-label { color: var(--accent); }
+    .read-more { color: var(--link); }
+    article.latest-post { border-color: var(--latest-border); background: var(--latest-background); }
+    .recomendacoes li a { color: var(--header-title); }
+    .recomendacoes li a:hover { color: var(--accent); }
+    footer { color: var(--footer); }
+
   </style>
 </head>
 

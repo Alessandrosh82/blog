@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Painel administrativo — Vivendo a Obra Nova</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <section id="loginView" class="login-view">
+    <form id="loginForm" class="login-card">
+      <div class="logo">VO</div>
+      <p class="eyebrow">Vivendo a Obra Nova</p>
+      <h1>Painel administrativo</h1>
+      <p class="muted">Use o token do GitHub criado exclusivamente para o repositório do blog.</p>
+      <label>Token do GitHub
+        <input id="tokenInput" type="password" autocomplete="off" required placeholder="github_pat_...">
+      </label>
+      <label class="check"><input id="rememberToken" type="checkbox" checked> <span>Manter acesso neste dispositivo</span></label>
+      <button id="connectButton" class="button primary" type="submit">Entrar no painel</button>
+      <small>O token é salvo somente neste navegador e nunca é enviado aos arquivos do site.</small>
+    </form>
+  </section>
+
+  <section id="appView" class="app hidden">
+    <aside class="sidebar">
+      <div>
+        <div class="brand"><div class="logo small">VO</div><div><strong>Vivendo a Obra Nova</strong><span>Administração</span></div></div>
+        <nav>
+          <button class="nav-button active" data-view="posts" type="button">Artigos</button>
+          <button class="nav-button" data-view="editor" type="button">Novo artigo</button>
+          <button class="nav-button" data-view="appearance" type="button">Cores e fontes</button>
+        </nav>
+      </div>
+      <div class="sidebar-bottom">
+        <a class="button ghost full" href="../" target="_blank" rel="noopener">Abrir o blog</a>
+        <button id="logoutButton" class="button outline full" type="button">Sair</button>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <button id="menuButton" class="menu-button" type="button" aria-label="Abrir menu">☰</button>
+        <div><p class="eyebrow">Painel administrativo</p><h2 id="pageTitle">Artigos</h2></div>
+        <span id="connectionStatus" class="connection">GitHub conectado</span>
+      </header>
+
+      <section id="postsView" class="view">
+        <div class="toolbar">
+          <input id="searchInput" type="search" placeholder="Pesquisar artigo">
+          <button id="newPostButton" class="button primary" type="button">Adicionar artigo</button>
+        </div>
+        <div id="postStats" class="stats"></div>
+        <div id="postsList" class="posts-list"></div>
+      </section>
+
+      <section id="editorView" class="view hidden">
+        <form id="postForm">
+          <input id="editingId" type="hidden">
+          <div class="editor-header">
+            <div><p id="editorEyebrow" class="eyebrow">Novo artigo</p><h3 id="editorHeading">Adicionar artigo</h3></div>
+            <div class="actions">
+              <button id="cancelEditButton" class="button ghost" type="button">Cancelar</button>
+              <button id="savePostButton" class="button primary" type="submit">Publicar alterações</button>
+            </div>
+          </div>
+          <div class="card editor-card">
+            <div class="form-grid">
+              <label>Título
+                <input id="postTitle" type="text" maxlength="200" required>
+              </label>
+              <label>Data de publicação
+                <input id="postDate" type="date" required>
+              </label>
+            </div>
+            <label>Conteúdo do artigo</label>
+            <div id="editor"></div>
+          </div>
+        </form>
+      </section>
+
+      <section id="appearanceView" class="view hidden">
+        <form id="appearanceForm">
+          <div class="editor-header">
+            <div><p class="eyebrow">Aparência geral</p><h3>Cores e fontes</h3></div>
+            <div class="actions">
+              <button id="resetThemeButton" class="button ghost" type="button">Restaurar padrão atual</button>
+              <button id="saveThemeButton" class="button primary" type="submit">Salvar aparência</button>
+            </div>
+          </div>
+
+          <div class="appearance-layout">
+            <div class="card settings-card">
+              <h4>Fontes</h4>
+              <div class="form-grid">
+                <label>Fonte dos textos<select id="bodyFont"></select></label>
+                <label>Fonte do título do blog<select id="titleFont"></select></label>
+              </div>
+              <h4>Cores</h4>
+              <div id="colorsGrid" class="colors-grid"></div>
+            </div>
+
+            <div class="card preview-card">
+              <span>Pré-visualização</span>
+              <div id="themePreview" class="theme-preview">
+                <h1>Vivendo a Obra Nova</h1>
+                <p class="preview-subtitle">blog católico</p>
+                <p class="preview-quote">“Eis que faço uma obra nova...”</p>
+                <article>
+                  <strong>Exemplo de um artigo</strong>
+                  <p>Este texto mostra como as cores e as fontes ficarão no site.</p>
+                  <a href="#" onclick="return false">Ler mais →</a>
+                </article>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  </section>
+
+  <dialog id="deleteDialog">
+    <form method="dialog" class="dialog-card">
+      <h3>Excluir este artigo?</h3>
+      <p id="deleteText"></p>
+      <div class="actions end">
+        <button class="button ghost" value="cancel">Cancelar</button>
+        <button id="confirmDeleteButton" class="button danger" value="default">Excluir</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

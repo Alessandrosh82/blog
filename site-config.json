@@ -1,0 +1,27 @@
+{
+  "bodyFont": {
+    "name": "Segoe UI",
+    "css": "\"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif",
+    "google": ""
+  },
+  "titleFont": {
+    "name": "Dancing Script",
+    "css": "\"Dancing Script\", cursive",
+    "google": "Dancing+Script:wght@700"
+  },
+  "colors": {
+    "siteBackground": "#f7f6f3",
+    "bodyText": "#333333",
+    "headerTitle": "#2c3e50",
+    "subtitle": "#6c7a89",
+    "quote": "#3a6351",
+    "accent": "#1b6b54",
+    "articleBackground": "#ffffff",
+    "articleTitle": "#2a3d45",
+    "link": "#0066cc",
+    "latestBackground": "#f0fbff",
+    "latestBorder": "#5b86a3",
+    "postBackground": "#fff8dc",
+    "footer": "#aaaaaa"
+  }
+}

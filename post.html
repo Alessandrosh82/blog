@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <script src="theme.js"></script>
+
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -99,6 +101,36 @@
       article h1 { font-size:1.6rem; }
       .nav-buttons,.share-buttons { flex-direction:column; align-items:center; }
     }
+
+
+    /* Configuração visual editável pelo painel administrativo. */
+    :root {
+      --body-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      --title-font: "Dancing Script", cursive;
+      --site-background: #f7f6f3;
+      --body-text: #333333;
+      --header-title: #2c3e50;
+      --subtitle: #6c7a89;
+      --quote: #3a6351;
+      --accent: #1b6b54;
+      --article-background: #ffffff;
+      --article-title: #2a3d45;
+      --link: #0066cc;
+      --latest-background: #f0fbff;
+      --latest-border: #5b86a3;
+      --post-background: #fff8dc;
+      --footer: #aaaaaa;
+    }
+
+    body { font-family: var(--body-font); background: var(--site-background); color: var(--body-text); }
+    header h1 { font-family: var(--title-font); color: var(--header-title); }
+    .quote { color: var(--quote); }
+    .article-container { background-color: var(--post-background); }
+    article h1 { color: var(--article-title); }
+    .nav-buttons a, .share-buttons button { color: var(--accent); border-color: var(--accent); }
+    .nav-buttons a:hover, .share-buttons button:hover { background-color: var(--accent); color: white; }
+    footer { color: var(--footer); }
+
   </style>
 </head>
 
