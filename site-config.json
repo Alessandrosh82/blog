@@ -10,7 +10,7 @@
     "google": "Dancing+Script:wght@400;600;700"
   },
   "colors": {
-    "siteBackground": "#fffdeb",
+    "siteBackground": "#fffef5",
     "bodyText": "#333333",
     "headerTitle": "#2c3e50",
     "subtitle": "#6c7a89",
@@ -21,7 +21,7 @@
     "link": "#0066cc",
     "latestBackground": "#f0fbff",
     "latestBorder": "#5b86a3",
-    "postBackground": "#f2e9c4",
+    "postBackground": "#f2edd9",
     "footer": "#aaaaaa"
   }
 }
